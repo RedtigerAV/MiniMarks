@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\App.xaml
-2-893600868
+4988956620
 
 91666141024
 15-1589887474
-MainWindow.xaml;Styles\EditItemStyle.xaml;
+MainWindow.xaml;Resources\Icons.xaml;Resources\IconsNonShared.xaml;Styles\EditItemStyle.xaml;
 
 False
 

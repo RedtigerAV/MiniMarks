@@ -19,7 +19,7 @@ namespace MiniMarks {
             set { content = value; OnPropertyChanged(nameof(MarkContent)); }
         }
 
-        public MarkModel(string title = "Без названия", string markContent = "") {
+        public MarkModel(string title = "", string markContent = "") {
             Title = title;
             MarkContent = markContent;
         }

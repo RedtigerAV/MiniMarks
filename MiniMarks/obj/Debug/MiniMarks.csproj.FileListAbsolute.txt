@@ -18,3 +18,5 @@ C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMa
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\MiniMarks.exe
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\MiniMarks.pdb
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Styles\EditItemStyle.baml
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Resources\Icons.baml
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Resources\IconsNonShared.baml
