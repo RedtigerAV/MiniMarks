@@ -9,7 +9,7 @@
         mc:Ignorable="d" Title="MiniMarks" TitlebarHeight="20" TitleCaps="False"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Height="600" Width="400" ResizeMode="CanResizeWithGrip"
-        GlowBrush="#FF424141"
+        GlowBrush="#FF424141" TitleAlignment="Center"
         MinHeight="500" MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center"
         RightWindowCommandsOverlayBehavior="Never" WindowStartupLocation="Manual">
     <Grid>
@@ -22,12 +22,47 @@
             <RowDefinition Height="auto"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <ListBox Grid.Column="0" ItemsSource="{Binding Marks}"
+        <ListBox Name="MarkListBox" Grid.Column="0" ItemsSource="{Binding Marks}"
                  SelectedItem="{Binding SelectedMark}">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                <Border x:Name="myBorder"
+                                    Padding="0" Margin="0 3 0 0"
+                                    SnapsToDevicePixels="true"
+                                     Style="{DynamicResource borderContent}">
+                                    <ContentPresenter />
+                                </Border>
+                                <ControlTemplate.Resources>
+                                    <Style x:Key="borderContent" TargetType="Border">
+                                        <Setter Property="BorderThickness" Value="3 0 3 0"/>
+                                        <Setter Property="BorderBrush" Value="Transparent"/>
+                                    </Style>
+                                </ControlTemplate.Resources>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsSelected" Value="true">
+                                        <Setter TargetName="myBorder" Property="BorderBrush" Value="#FF9B13C3"/>
+                                    </Trigger>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="myBorder" Property="Background" Value="#FF6E5A74" />
+                                        <Setter TargetName="myBorder" Property="BorderBrush" Value="#FF6E5A74" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border BorderThickness="0, 0, 0, 0.5" BorderBrush="LightGray">
                         <Grid Name="MarkGrid" Background="Transparent">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
                             <StackPanel Margin="3">
                                 <TextBlock FontSize="18" Text="{Binding Path=Title}"
                                        Height="Auto" TextWrapping="Wrap"  FontWeight="Bold"
@@ -38,24 +73,28 @@
                                        MaxHeight="50" Height="auto"
                                        TextTrimming="CharacterEllipsis" MaxWidth="300"
                                        HorizontalAlignment="Left" Margin="5, 0, 0, 0"/>
-                                <Button Padding="2" HorizontalAlignment="Left" Height="auto"
-                                         Width="auto" Content="Удалить" FontSize="10"
-                                        Margin="4, 0, 0, 0" Foreground="#FFBF6AF9"
-                                        FontWeight="DemiBold"
+                            </StackPanel>
+                            <Grid Grid.Column="1" Background="Transparent">
+                                <Button Padding="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="36"
+                                         Width="36" Content="u" FontSize="33"
+                                        Margin="2, 3, 3, 2" Foreground="#FFBF6AF9"
+                                        FontFamily="/Resources/#Entypo" ToolTip="Удалить"
+                                        Style="{DynamicResource MetroCircleButtonStyle}"
+                                        HorizontalContentAlignment="Center" VerticalContentAlignment="Center"
                                         Command="{Binding ElementName=MyMainWindow, Path=MainContext.DeleteMarkCommand}"
                                         CommandParameter="{Binding ElementName=MarkGrid, Path=DataContext}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                                            <Setter Property="Visibility" Value="Collapsed" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=MarkGrid, Path=IsMouseOver}" Value="True">
-                                                    <Setter Property="Visibility" Value="Visible"></Setter>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
                                 </Button>
-                            </StackPanel>
+                                <Grid.Style>
+                                    <Style TargetType="Grid">
+                                        <Setter Property="Visibility" Value="Collapsed" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ElementName=MarkGrid, Path=IsMouseOver}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"></Setter>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
                             <Grid.InputBindings>
                                 <MouseBinding Command="{Binding ElementName=MyMainWindow, Path=MainContext.OpenEditiorCommand}"
                                                       CommandParameter="{Binding ElementName=MarkGrid, Path=DataContext}" 
@@ -80,8 +119,8 @@
                 Command="{Binding OpenNewMarkCommand}"></Button>
 
         <Controls:FlyoutsControl Grid.Column="0" Grid.RowSpan="2">
-            <Controls:Flyout Name="EditFlyout" Header="{Binding ElementName=MyMainWindow, Path=MainContext.FlyoutHeader}" DataContext="{Binding SelectedMark}"
-                             Style="{StaticResource FlyoutForEdit}" IsOpen="{Binding ElementName=MyMainWindow, Path=MainContext.IsEditOpen}">
+            <Controls:Flyout Name="EditFlyout" Header="{Binding FlyoutHeader}"
+                             Style="{StaticResource FlyoutForEdit}" IsOpen="{Binding IsEditOpen}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
@@ -98,7 +137,7 @@
                                    FontFamily="Verdana"
                                    Text="Название: " Margin="4" FontSize="15"
                                VerticalAlignment="Center"/>
-                    <TextBox Text="{Binding Path=Title, UpdateSourceTrigger=PropertyChanged}"
+                    <TextBox Text="{Binding Path=EditContext.Title, UpdateSourceTrigger=PropertyChanged}"
                                  Grid.Column="1" Grid.Row="0" 
                                  Controls:TextBoxHelper.ClearTextButton="True"
                                  FontSize="15" FontFamily="Verdana" Margin="0, 1, 3, 1"
@@ -106,18 +145,13 @@
                     <GroupBox Grid.ColumnSpan="2" Grid.Row="1"
                               Header="Заметка" FontSize="15" VerticalContentAlignment="Stretch"
                               HorizontalContentAlignment="Stretch" Margin="3">
-                        <TextBox Text="{Binding Path=MarkContent, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding Path=EditContext.MarkContent, UpdateSourceTrigger=PropertyChanged}"
                                  TextWrapping="Wrap"/>
                     </GroupBox>
                     <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="auto" 
                             Content="Сохранить" Padding="3"
                             FontWeight="DemiBold" Margin="3, 3, 8, 8" Foreground="#FFBF6AF9"
-                            Command="{Binding ElementName=MyMainWindow, Path=MainContext.SaveNewMarkCommand}">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-                                <Setter Property="Visibility" Value="{Binding ElementName=MyMainWindow, Path=MainContext.SaveButtonVs}" />
-                            </Style>
-                        </Button.Style>
+                            Command="{Binding ElementName=MyMainWindow, Path=MainContext.SaveMarkCommand}">
                     </Button>
                 </Grid>
             </Controls:Flyout>

@@ -25,6 +25,8 @@ namespace MiniMarks {
             DataContext = MainContext;
 
             InitializeComponent();
+
+            EditFlyout.DataContext = MainContext.EditVM;
         }
     }
 }

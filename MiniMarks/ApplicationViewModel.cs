@@ -3,84 +3,90 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using MiniMarks.MinimalMVVM;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using System.Windows;
+using System.Data.Entity;
+using System.Runtime.CompilerServices;
 
 namespace MiniMarks {
     public class ApplicationViewModel: Observer {
-        private MarkModel selectedMark;
-        private bool isEditOpen = false;
-        private string flyoutHeader;
-        private Visibility saveButtonVs;
-        public ObservableCollection<MarkModel> Marks { get; set; }
+        ApplicationContext db;
+        private Mark selectedMark;
+        private MarkEditiorViewModel editVM;
+        public ObservableCollection<Mark> marks;
 
-        public MarkModel SelectedMark {
+        public MarkEditiorViewModel EditVM { get { return editVM; } }
+
+        public Mark SelectedMark {
             get { return selectedMark; }
             set { selectedMark = value; OnPropertyChanged(nameof(SelectedMark)); }
         }
 
-        public Visibility SaveButtonVs {
-            get { return saveButtonVs; }
-            set { saveButtonVs = value; OnPropertyChanged(nameof(SaveButtonVs)); }
-        }
-
-        public bool IsEditOpen {
-            get { return isEditOpen; }
-            set { isEditOpen = value;
-                OnPropertyChanged(nameof(IsEditOpen));
-                if (value == false) SelectedMark = null;
-            }
-        }
-
-        public string FlyoutHeader {
-            get { return flyoutHeader; }
-            set { flyoutHeader = value; OnPropertyChanged(nameof(FlyoutHeader)); }
+        public ObservableCollection<Mark> Marks {
+            get { return marks; }
+            set { marks = value; OnPropertyChanged(nameof(Marks)); }
         }
 
         public DelegateCommand OpenNewMarkCommand {
             get { return new DelegateCommand(obj => { onOpenNewMark(); }); }
         }
 
-        public DelegateCommand SaveNewMarkCommand {
-            get { return new DelegateCommand(obj => onSaveNewMark()); }
+        public DelegateCommand SaveMarkCommand {
+            get { return new DelegateCommand(obj => { onSaveMark(); }); }
         }
 
         public DelegateCommand OpenEditiorCommand {
             get {
                 return new DelegateCommand(obj => {
-                    SelectedMark = obj as MarkModel;
-                    FlyoutHeader = "Выбранная заметка";
-                    SaveButtonVs = Visibility.Collapsed; IsEditOpen = true;
+                    SelectedMark = obj as Mark;
+                    EditVM.SetContext(SelectedMark);
                 });
             }
         }
 
         public DelegateCommand DeleteMarkCommand {
             get { return new DelegateCommand(obj => {
-                MarkModel mark = obj as MarkModel;
+                Mark mark = obj as Mark;
+                if (mark == null) return;
                 Marks.Remove(mark);
+                db.Marks.Remove(mark);
+                db.SaveChanges();
             }); }
         }
 
-        private void onSaveNewMark() {
-            Marks.Insert(0, SelectedMark);
-            IsEditOpen = false;
+        private void onSaveMark() {
+            if (EditVM.IsNew) {
+                if (EditVM.EditContext == null) return;
+                Marks.Insert(0, EditVM.EditContext);
+                db.Marks.Add(EditVM.EditContext);
+                db.SaveChanges();
+            } else {
+                Mark mark = db.Marks.Find(EditVM.EditContext.Id);
+                if (mark == null) return;
+                SelectedMark.Title = EditVM.EditContext.Title;
+                SelectedMark.MarkContent = EditVM.EditContext.MarkContent;
+                mark.Title = EditVM.EditContext.Title;
+                mark.MarkContent = EditVM.EditContext.MarkContent;
+                db.Entry(mark).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+            EditVM.IsEditOpen = false;
         }
 
         private void onOpenNewMark() {
-            FlyoutHeader = "Новая заметка";
-            SaveButtonVs = Visibility.Visible;
-            SelectedMark = new MarkModel();
-            IsEditOpen = true;
+            EditVM.SetContext();
+            SelectedMark = null;
+            EditVM.IsEditOpen = true;
         }
         
         public ApplicationViewModel() {
-            Marks = new ObservableCollection<MarkModel> {
-                new MarkModel {Title = "First Mark", MarkContent = "It's my first mark\nGood job" },
-                new MarkModel {Title = "Remeber the Milk", MarkContent = "From Russia\nWith love" }
-            };
+            editVM = new MarkEditiorViewModel();
+            db = new ApplicationContext();
+            db.Marks.Load();
+            Marks = new ObservableCollection<Mark>(db.Marks.Local.OrderByDescending(mark => mark.Id));
         }
     }
 }

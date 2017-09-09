@@ -20,3 +20,12 @@ C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMa
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Styles\EditItemStyle.baml
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Resources\Icons.baml
 C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\obj\Debug\Resources\IconsNonShared.baml
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\marksdb.db
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\EntityFramework.dll
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\System.Data.SQLite.dll
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\EntityFramework.xml
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Антон\Desktop\УЧЕБА\Самообучение\MiniMarks\MiniMarks\bin\Debug\System.Data.SQLite.xml
