@@ -116,7 +116,8 @@
                         Height="50" Width="50" Margin="15" FontSize="45"
                         Background="#FFBF6AF9"
                         BorderThickness="1" Style="{DynamicResource MetroCircleButtonStyle}"
-                Command="{Binding OpenNewMarkCommand}"></Button>
+                Command="{Binding OpenNewMarkCommand}">
+        </Button>
 
         <Controls:FlyoutsControl Grid.Column="0" Grid.RowSpan="2">
             <Controls:Flyout Name="EditFlyout" Header="{Binding FlyoutHeader}"
@@ -146,13 +147,17 @@
                               Header="Заметка" FontSize="15" VerticalContentAlignment="Stretch"
                               HorizontalContentAlignment="Stretch" Margin="3">
                         <TextBox Text="{Binding Path=EditContext.MarkContent, UpdateSourceTrigger=PropertyChanged}"
-                                 TextWrapping="Wrap"/>
+                                 TextWrapping="Wrap" AcceptsReturn="True"/>
                     </GroupBox>
                     <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="auto" 
-                            Content="Сохранить" Padding="3"
+                            Content="Сохранить" Padding="3" ToolTip="Ctrl+S"
                             FontWeight="DemiBold" Margin="3, 3, 8, 8" Foreground="#FFBF6AF9"
                             Command="{Binding ElementName=MyMainWindow, Path=MainContext.SaveMarkCommand}">
                     </Button>
+                    <Grid.InputBindings>
+                        <KeyBinding Gesture="Ctrl+S" 
+                                        Command="{Binding ElementName=MyMainWindow, Path=MainContext.SaveMarkCommand}"></KeyBinding>
+                    </Grid.InputBindings>
                 </Grid>
             </Controls:Flyout>
         </Controls:FlyoutsControl>

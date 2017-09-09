@@ -58,22 +58,30 @@ namespace MiniMarks {
         }
 
         private void onSaveMark() {
+            if (EditVM.EditContext == null) return;
+
             if (EditVM.IsNew) {
-                if (EditVM.EditContext == null) return;
                 Marks.Insert(0, EditVM.EditContext);
-                db.Marks.Add(EditVM.EditContext);
-                db.SaveChanges();
             } else {
-                Mark mark = db.Marks.Find(EditVM.EditContext.Id);
-                if (mark == null) return;
                 SelectedMark.Title = EditVM.EditContext.Title;
                 SelectedMark.MarkContent = EditVM.EditContext.MarkContent;
+            }
+            onSaveMarkAsync();
+            EditVM.IsEditOpen = false;
+        }
+
+        private async Task onSaveMarkAsync() {
+            if (EditVM.IsNew) {
+                db.Marks.Add(EditVM.EditContext);
+                await db.SaveChangesAsync();
+            } else {
+                Mark mark = await db.Marks.FindAsync(EditVM.EditContext.Id);
+                if (mark == null) return;
                 mark.Title = EditVM.EditContext.Title;
                 mark.MarkContent = EditVM.EditContext.MarkContent;
                 db.Entry(mark).State = EntityState.Modified;
-                db.SaveChanges();
+                await db.SaveChangesAsync();
             }
-            EditVM.IsEditOpen = false;
         }
 
         private void onOpenNewMark() {
