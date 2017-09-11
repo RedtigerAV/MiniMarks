@@ -1,1 +1,1 @@
-# Mini-Notes
+# MiniMarks
