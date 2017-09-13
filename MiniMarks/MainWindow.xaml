@@ -6,10 +6,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MiniMarks"
         xmlns:Controls ="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        mc:Ignorable="d" Title="MiniMarks" TitlebarHeight="20" TitleCaps="False"
+        mc:Ignorable="d" Title="MiniMarks" TitlebarHeight="30" TitleCaps="False"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         Height="600" Width="400" ResizeMode="CanResizeWithGrip"
-        GlowBrush="#FF424141" TitleAlignment="Center"
+        ShowIconOnTitleBar="False"
+        GlowBrush="#FF424141" TitleAlignment="Center" Icon="/Resources/note-icon.ico"
         MinHeight="500" MinWidth="300" HorizontalAlignment="Center" VerticalAlignment="Center"
         RightWindowCommandsOverlayBehavior="Never" WindowStartupLocation="Manual">
     <Grid>
