@@ -19,7 +19,9 @@ namespace MiniMarks {
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : MetroWindow {
-
+        /// <value>
+        /// Свойство MainContext - контекст данных для списка заметок
+        /// </value>
         public ApplicationViewModel MainContext { get; set; } = new ApplicationViewModel();
         public MainWindow() {
             DataContext = MainContext;

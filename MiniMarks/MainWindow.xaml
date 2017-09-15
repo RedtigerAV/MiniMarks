@@ -76,7 +76,7 @@
                                        HorizontalAlignment="Left" Margin="5, 0, 0, 0"/>
                             </StackPanel>
                             <Grid Grid.Column="1" Background="Transparent">
-                                <Button Padding="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="36"
+                                <Button Name="Del_Mark" Padding="2" HorizontalAlignment="Right" VerticalAlignment="Center" Height="36"
                                          Width="36" Content="u" FontSize="33"
                                         Margin="2, 3, 3, 2" Foreground="#FFBF6AF9"
                                         FontFamily="/Resources/#Entypo" ToolTip="Удалить"
@@ -150,7 +150,7 @@
                         <TextBox Text="{Binding Path=EditContext.MarkContent, UpdateSourceTrigger=PropertyChanged}"
                                  TextWrapping="Wrap" AcceptsReturn="True"/>
                     </GroupBox>
-                    <Button Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="auto" 
+                    <Button Name="Save_Mark" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Right" Width="auto" 
                             Content="Сохранить" Padding="3" ToolTip="Ctrl+S"
                             FontWeight="DemiBold" Margin="3, 3, 8, 8" Foreground="#FFBF6AF9"
                             Command="{Binding ElementName=MyMainWindow, Path=MainContext.SaveMarkCommand}">
