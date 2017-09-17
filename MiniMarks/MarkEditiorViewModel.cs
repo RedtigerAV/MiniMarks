@@ -69,6 +69,6 @@ namespace MiniMarks {
             IsEditOpen = true;
         }
 
-        public MarkEditiorViewModel() { editContext = new Mark(); flyoutHeader = "FUCK YOU!"; isNew = false; }
+        public MarkEditiorViewModel() { editContext = new Mark(); flyoutHeader = ""; isNew = false; }
     }
 }
